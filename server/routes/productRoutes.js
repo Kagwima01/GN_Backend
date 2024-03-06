@@ -10,7 +10,7 @@ const getProducts = async (req, res) => {
   const page = parseInt(req.params.page); // 1, 2 or 3
   const perPage = parseInt(req.params.perPage); // 10
 
-  const products = await Product.find({});
+  const products = await Product.find({}).sort({ updatedAt: -1 });
 
   if (page && perPage) {
     const totalPages = Math.ceil(products.length / perPage);
@@ -29,7 +29,9 @@ const getProducts = async (req, res) => {
 //get new products
 const getNewProducts = async (req, res) => {
   try {
-    const newProducts = await Product.find({ productIsNew: true });
+    const newProducts = await Product.find({ productIsNew: true }).sort({
+      createdAt: -1,
+    });
     res.json(newProducts);
   } catch (error) {
     console.error(error);
@@ -53,7 +55,9 @@ const getProduct = async (req, res) => {
 const getProductsByBrand = async (req, res) => {
   try {
     const brand = req.params.brand;
-    const products = await Product.find({ brand: brand });
+    const products = await Product.find({ brand: brand }).sort({
+      updatedAt: -1,
+    });
     res.json(products);
   } catch (error) {
     console.error(error);
@@ -64,7 +68,9 @@ const getProductsByBrand = async (req, res) => {
 const getProductsByCategory = async (req, res) => {
   try {
     const category = req.params.category;
-    const products = await Product.find({ category: category });
+    const products = await Product.find({ category: category }).sort({
+      updatedAt: -1,
+    });
     res.json(products);
   } catch (error) {
     console.error(error);

@@ -7,7 +7,7 @@ const { admin, protectRoute } = require("../middleware/authMiddleware");
 const salesRoutes = express.Router();
 
 const getSales = async (req, res) => {
-  const sales = await Sale.find({});
+  const sales = await Sale.find({}).sort({ createdAt: -1 });
   res.json(sales);
 };
 

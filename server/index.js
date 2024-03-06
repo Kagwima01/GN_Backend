@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const salesRoutes = require("./routes/salesRoutes");
 const filtersRoutes = require("./routes/filtersRoutes");
 const imageRoutes = require("./routes/imageRoutes");
+const stockRoutes = require("./routes/stockRoutes");
 
 dotenv.config();
 connectToDatabase();
@@ -22,6 +23,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/sales", salesRoutes);
 app.use("/api/filters", filtersRoutes);
 app.use("/api/images", imageRoutes);
+app.use("/api/stock", stockRoutes);
 
 app.get("/api/config/web-google", (req, res) =>
   res.send(process.env.GOOGLE_WEB_CLIENT_ID)

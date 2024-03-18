@@ -32,7 +32,11 @@ const getNewProducts = async (req, res) => {
     const newProducts = await Product.find({ productIsNew: true }).sort({
       createdAt: -1,
     });
-    res.json(newProducts);
+    if (newProducts) {
+      res.json(newProducts);
+    } else {
+      res.status(404).send("No new products found.");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -51,14 +55,37 @@ const getProduct = async (req, res) => {
   }
 };
 
+//get products by name
+const getProductsByName = async (req, res) => {
+  const name = req.params.name;
+
+  try {
+    const products = await Product.find({ name: name }).sort({
+      updatedAt: -1,
+    });
+    if (products) {
+      res.json(products);
+    } else {
+      res.status(404).send("No products found.");
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 //get products by brand
 const getProductsByBrand = async (req, res) => {
+  const brand = req.params.brand;
+
   try {
-    const brand = req.params.brand;
     const products = await Product.find({ brand: brand }).sort({
       updatedAt: -1,
     });
-    res.json(products);
+    if (products) {
+      res.json(products);
+    } else {
+      res.status(404).send("No products found.");
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -204,7 +231,8 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 productRoutes.route("/out/:stock").get(protectRoute, admin, getOutOfStock);
-
+//get products by name
+productRoutes.route("/name/:name").get(getProductsByName);
 //get products by brand
 productRoutes.route("/brand/:brand").get(getProductsByBrand);
 
